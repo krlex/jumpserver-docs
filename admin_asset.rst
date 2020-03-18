@@ -1,113 +1,90 @@
-资产管理
+Asset Management
 =============
 
 一、资产列表
 `````````````````
-
-1.1 管理资产树
-
-资产树节点不能重名, 右击节点可以添加、删除和重命名节点, 以及进行资产相关的操作
+1.1 Manage Asset Tree
+Asset tree nodes cannot be renamed, right-click on nodes to add, delete, and rename nodes, and perform asset-related operations
 
 .. image:: _static/img/admin_assets_asset_list.jpg
 
-1.2 为资产树节点创建资产
-
-在资产列表页面, 先在左侧选择资产要加入的节点, 然后在右侧选择创建资产
-
+1.2 Create assets for asset tree nodes
+On the asset list page, first select the node to which the asset is to be added, and then select Create Asset on the right
 .. image:: _static/img/admin_assets_asset_create.jpg
 
-二、网域列表
+Domain list
 `````````````````
 
-网域功能是为了解决部分环境（如：混合云）无法直接连接而新增的功能，原理是通过网关服务器进行跳转登录
 
 2.1 网域列表
-
+The domain function is a newly added function to solve the problem that some environments (such as hybrid cloud) cannot be directly connected. The principle is to log in through the gateway server.
 .. image:: _static/img/admin_assets_domain_list.jpg
 
-2.2 创建网域
-
-在网域列表页面, 在右侧选择创建网域
-
+2.2 Create a domain
+On the Domain List page, select Create Domain on the right
 .. image:: _static/img/admin_assets_domain_create.jpg
 
-2.3 网关列表
-
+2.3 Gateway List
 .. image:: _static/img/admin_assets_domain_gateway_list.jpg
 
-2.4 创建网关
-
-在网域列表页面, 点击网关下面的数字进入网关列表, 点击创建网关, 网关可以是一台任意装有 ssh 服务的资产
-
+2.4 Create Gateway
+On the domain list page, click the number under the gateway to enter the gateway list, and click Create Gateway. The gateway can be any asset with ssh service
 .. image:: _static/img/admin_assets_domain_gateway_create.jpg
 
-三、管理用户
+Third, manage users
 `````````````````````
+The management user is the root on the asset (the controlled server) or a user with NOPASSWD: ALL sudo permissions. JumpServer uses this user to push system users and obtain asset hardware information. Windows Please fill in the users in the administrators group
 
-管理用户是资产（被控服务器）上的root，或拥有 NOPASSWD: ALL sudo权限的用户， JumpServer使用该用户来 推送系统用户、获取资产硬件信息 等。Windows 请填写 administrators 组里面的用户
-
-3.1 管理用户列表
-
+3.1 Manage user list
 .. image:: _static/img/admin_assets_admin-user_list.jpg
 
-3.2 创建管理用户
-
+3.2 Create Administrative User
 .. image:: _static/img/admin_assets_admin-user_create.jpg
 
-四、系统用户
-`````````````````````
+Fourth, system users`````````````````````
 
-系统用户是 JumpServer跳转登录资产时使用的用户，可以理解为登录资产用户，如 web, sa, dba(`ssh web@some-host`), 而不是使用某个用户的用户名跳转登录服务器(`ssh xiaoming@some-host`); 简单来说是 用户使用自己的用户名登录JumpServer, JumpServer使用系统用户登录资产。 系统用户创建时，如果选择了自动推送 JumpServer 会使用 ansible 自动推送系统用户到资产中，如果资产不支持ansible, 请手动填写账号密码（域用户格式: user@domain.com）。
+The system user is the user that JumpServer uses to log in to the asset. It can be understood as the user who logs in to the asset, such as web, sa, dba (`ssh web @ some-host`), instead of using a user's username to log in to the server (`ssh xiaoming @ some-host`); To put it simply, users log in to JumpServer with their own username, and JumpServer uses system users to log in to assets. When the system user is created, if the automatic push is selected, JumpServer will use ansible to automatically push the system users to the asset. If the asset does not support ansible, please fill in the account password manually (domain user format: user@domain.com).
 
-4.1 系统用户列表
-
+4.1 System user list
 .. image:: _static/img/admin_assets_system-user_list.jpg
 
-4.2 创建系统用户
-
+4.2 Create System User
 .. image:: _static/img/admin_assets_system-user_create_01.jpg
 .. image:: _static/img/admin_assets_system-user_create_02.jpg
 
-五、标签管理
+Five, label management
 ````````````````
+Label assets for easy query and management. The label information has a name and a value: the name can be a description of the function information, for example: purpose, and the value can be specific information, for example: organization 1-department 1-research and development. When creating a label, you can choose to label the existing asset.
 
-给资产打上标签便于查询和管理。标签信息有名称和值：名称可以是描述功能信息, 例如：用途, 值则可以是具体信息, 例如：组织1-部门1-研发。标签创建的时候可以选择为已存在的资产打上该标签。
-
-5.1 标签列表
+5.1 Label list
 
 .. image:: _static/img/admin_assets_label_list.jpg
 
-5.2 创建标签
+5.2 Creating labels
 
-点击页面左上角"创建标签"按钮, 进入创建标签页面：
+Click the "Create Tag" button in the upper left corner of the page to enter the Create Tag page:
 
+Tag names can be duplicated, and an asset can have multiple tag properties. Tag deletion, tag information on the asset will disappear automatically
 .. image:: _static/img/admin_assets_label_create.jpg
 
-标签名称可以重名, 一个资产可以有多个标签产。标签删除, 资产上的标签信息会自动消失
-
-六、命令过滤
+Command filtering
 ````````````````
 
-系统用户可以绑定一些命令过滤器，一个过滤器可以定义一些规则 当用户使用这个系统用户登录资产，然后执行一个命令 这个命令需要被绑定过滤器的所有规则匹配，高优先级先被匹配, 当一个规则匹配到了，如果规则的动作是 允许, 这个命令会被放行, 如果规则的动作是 禁止，命令将会被禁止执行, 否则就匹配下一个规则，如果最后没有匹配到规则，则允许执行
+System users can bind some command filters. A filter can define some rules. When a user uses this system user to log in to an asset, and then execute a command, this command needs to be matched by all the rules of the bound filter. High priority is matched first. When a rule is matched, if the action of the rule is allowed, the command will be released. If the action of the rule is prohibited, the command will be prohibited from executing, otherwise the next rule will be matched, and if no rule is finally matched, the execution will be allowed
 
-6.1 命令过滤器列表
-
+6.1 Command filter list
 .. image:: _static/img/admin_assets_cmd-filter_list.jpg
 
-6.2 创建命令过滤器
-
-在命令过滤器列表页面点击创建命令过滤器
-
+6.2 Create a command filter
+Click Create Command Filter on the Command Filter List page
 .. image:: _static/img/admin_assets_cmd-filter_create.jpg
 
-6.3 命令过滤器规则列表
-
-在命令过滤器列表页面点击规则下面的数字进入规则页面
+6.3 Command filter rule list
+Click the number below the rule on the command filter list page to enter the rule page
 
 .. image:: _static/img/admin_assets_cmd-filter_rule_list.jpg
 
-6.4 创建规则
+6.4 Create rule
 
-在命令过滤器列表页面点击规则下面的数字进入规则页面, 点击创建规则
-
+Click the number below the rule on the command filter list page to enter the rule page, and click Create Rule
 .. image:: _static/img/admin_assets_cmd-filter_rule_create.jpg
